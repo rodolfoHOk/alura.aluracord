@@ -2,6 +2,7 @@ import 'styled-components';
 
 declare module 'styled-components' {
   export interface DefaultTheme {
+    name: string;
     colors: {
       primary: {
         '050': string;
@@ -29,6 +30,9 @@ declare module 'styled-components' {
         '900': string;
         '999': string;
       };
+    };
+    bg: {
+      image: string;
     };
   }
 }

@@ -8,7 +8,7 @@ export const GlobalStyles = createGlobalStyle`
     list-style: none;
   }
   body {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Roboto", sans-serif;
   }
   /* App fit Height */
   html,

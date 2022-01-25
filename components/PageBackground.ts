@@ -5,8 +5,9 @@ export const PageBackground = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${(p) => p.theme.colors.primary[500]};
-  background-image: url('https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg');
+  background-image: url(${(p) => p.theme.bg.image});
   background-repeat: no-repeat;
   background-size: cover;
-  background-blend-mode: multiply;
+  background-blend-mode: ${(p) =>
+    p.theme.name == 'matrix' ? 'multiply' : 'none'};
 `;

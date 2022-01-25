@@ -11,7 +11,7 @@ export const FormButton = styled.button`
   text-decoration: none;
   overflow: hidden;
   width: 100%;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   outline: 0;
   transition: 0.2s ease-in-out;
