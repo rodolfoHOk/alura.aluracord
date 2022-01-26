@@ -47,4 +47,9 @@ const TemaContainerWrapper = styled.div`
   align-items: center;
   background-color: ${(p) => transparentize(0.1, p.theme.colors.neutrals[600])};
   border-radius: 8px;
+
+  @media screen and (max-width: 768px) {
+    top: 8px;
+    left: 16px;
+  }
 `;

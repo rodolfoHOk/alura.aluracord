@@ -8,7 +8,7 @@ import { PageBackground } from '../components/PageBackground';
 import TemaContainer from '../components/TemaContainer';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [theme, setTheme] = useState<DefaultTheme>(mushoku);
+  const [theme, setTheme] = useState<DefaultTheme>(matrix);
 
   return (
     <ThemeProvider theme={theme}>

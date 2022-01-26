@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const FormButton = styled.button`
+export const Button = styled.button`
   padding-left: 12px;
   padding-right: 12px;
   padding-top: 8px;
