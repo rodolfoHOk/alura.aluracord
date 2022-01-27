@@ -1,17 +1,19 @@
-import { Title } from '../components/Title';
-import { Paragraph } from '../components/Paragraph';
-import { PhotoContainer } from '../components/PhotoContainer';
-import { Photo } from '../components/Photo';
-import { LoginContainer } from '../components/LoginContainer';
-import { Form } from '../components/Form';
-import { TextInput } from '../components/TextInput';
-import { Button } from '../components/Button';
+import {
+  LoginContainer,
+  Form,
+  TextInput,
+  FormButton,
+  PhotoContainer,
+  Photo,
+  SmallButton,
+  UserInfos,
+} from '../components/styles/Login.styles';
+import { Title } from '../components/Typography/Title';
+import { Paragraph } from '../components/Typography/Paragraph';
 import { useTheme } from 'styled-components';
 import { ChangeEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import debounce from 'lodash.debounce';
-import { SmallButton } from '../components/SmallButton';
-import { UserInfos } from '../components/UserInfos';
 
 export default function PaginaInicial() {
   const theme = useTheme();
@@ -63,7 +65,7 @@ export default function PaginaInicial() {
           {`Aluracord - ${theme.name} (${username})`}
         </Paragraph>
         <TextInput value={userInput} onChange={handleUserInput} />
-        <Button type="submit">Entrar</Button>
+        <FormButton type="submit">Entrar</FormButton>
       </Form>
       {/* Formulário */}
 
