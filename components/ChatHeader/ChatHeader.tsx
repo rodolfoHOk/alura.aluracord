@@ -1,6 +1,8 @@
-import { HeaderWrapper, LogoutButton } from './ChatHeader.styles';
+import { HeaderWrapper } from './ChatHeader.styles';
 import { Title } from '../Typography/Title';
 import { useTheme } from 'styled-components';
+import { Button } from '../Button/Button';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 export function ChatHeader() {
   const theme = useTheme();
@@ -10,7 +12,15 @@ export function ChatHeader() {
       <Title level={5} style={{ color: theme.colors.neutrals['000'] }}>
         Chat
       </Title>
-      <LogoutButton>Logout</LogoutButton>
+      <Button
+        variant={'transparent'}
+        label={
+          <>
+            <FaSignOutAlt />
+            <span style={{ marginLeft: '4px', marginTop: '-1px' }}>Logout</span>
+          </>
+        }
+      />
     </HeaderWrapper>
   );
 }

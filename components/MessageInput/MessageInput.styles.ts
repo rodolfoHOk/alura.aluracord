@@ -1,3 +1,4 @@
+import { transparentize } from 'polished';
 import styled from 'styled-components';
 
 export const MessageInputWrapper = styled.div`
@@ -11,37 +12,25 @@ export const MessageInputWrapper = styled.div`
   }
 `;
 
-export const InputText = styled.textarea`
-  width: 100%;
-  height: 60px;
-  border: 0;
-  resize: none;
-  border-radius: 5px;
-  padding: 6px 8px;
-  background-color: ${(p) => p.theme.colors.neutrals[800]};
-  margin-right: 12px;
+export const TextInput = styled.textarea`
+  border-width: 1px;
+  background-color: ${(p) => transparentize(0.1, p.theme.colors.neutrals[800])};
   color: ${(p) => p.theme.colors.neutrals[200]};
-`;
-
-export const InputButton = styled.button`
-  height: 64px;
-  width: 64px;
-  background-color: ${(p) => p.theme.colors.primary[500]};
-  border-color: ${(p) => p.theme.colors.primary[500]};
-  color: ${(p) => p.theme.colors.neutrals['000']};
-  text-decoration: none;
-  overflow: hidden;
+  border-color: ${(p) => transparentize(0.1, p.theme.colors.neutrals[900])};
+  font-size: 14px;
   border-radius: 6px;
-  cursor: pointer;
-  outline: 0;
+  margin-right: 12px;
+  padding: 8px 12px;
+  font-family: inherit;
   transition: 0.2s ease-in-out;
-  border: 1px solid transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+  border-style: solid;
+  resize: none;
+  width: 100%;
+  display: block;
+  outline: 0;
 
-  &:hover {
-    background-color: ${(p) => p.theme.colors.primary[600]};
+  &:hover,
+  &:focus {
+    border-color: ${(p) => transparentize(0.1, p.theme.colors.primary[500])};
   }
 `;

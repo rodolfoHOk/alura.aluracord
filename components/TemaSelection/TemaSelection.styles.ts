@@ -10,7 +10,10 @@ export const TemaContainerWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${(p) => transparentize(0.1, p.theme.colors.neutrals[600])};
+  background-color: ${(p) =>
+    p.theme.name === 'Matrix'
+      ? transparentize(0.06, p.theme.colors.neutrals[700])
+      : transparentize(0.5, p.theme.colors.neutrals[700])};
   border-radius: 8px;
 
   @media screen and (max-width: 768px) {

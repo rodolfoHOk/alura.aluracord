@@ -1,9 +1,6 @@
 import { TextareaHTMLAttributes, VideoHTMLAttributes } from 'react';
-import {
-  MessageInputWrapper,
-  InputText,
-  InputButton,
-} from './MessageInput.styles';
+import { Button } from '../Button/Button';
+import { MessageInputWrapper, TextInput } from './MessageInput.styles';
 
 export interface MessageInputProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -13,8 +10,8 @@ export interface MessageInputProps
 export function MessageInput({ onSend, ...props }: MessageInputProps) {
   return (
     <MessageInputWrapper>
-      <InputText placeholder="Insira sua mensagem aqui..." {...props} />
-      <InputButton onClick={onSend}>Enviar</InputButton>
+      <TextInput placeholder="Insira sua mensagem aqui..." {...props} />
+      <Button size={'large'} onClick={onSend} label={'Enviar'} />
     </MessageInputWrapper>
   );
 }

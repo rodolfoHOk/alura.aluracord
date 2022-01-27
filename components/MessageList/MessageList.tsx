@@ -1,9 +1,10 @@
+import { FaRegTrashAlt } from 'react-icons/fa';
+import { IconButton } from '../IconButton/IconButton';
 import {
   MessageListWrapper,
   ListItem,
   AvatarImage,
   DataSpan,
-  DeleteButton,
 } from './MessageList.styles';
 
 export interface Message {
@@ -28,7 +29,10 @@ export function MessageList({ messages, onDelete }: MessageListProps) {
             <strong>{message.from}</strong>
             <DataSpan>{message.timestamp.toLocaleString()}</DataSpan>
           </div>
-          <DeleteButton onClick={() => onDelete(message.id)}>x</DeleteButton>
+          <IconButton
+            icon={<FaRegTrashAlt />}
+            onClick={() => onDelete(message.id)}
+          />
           {message.content}
         </ListItem>
       ))}

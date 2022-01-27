@@ -13,7 +13,9 @@ export const LoginContainer = styled.div`
   margin: 16px;
   box-shadow: 0 2px 10px 0 rgb(0 0 0 / 20%);
   background-color: ${(p) =>
-    transparentize(0.06, p.theme.colors.neutrals[700])};
+    p.theme.name === 'Matrix'
+      ? transparentize(0.06, p.theme.colors.neutrals[700])
+      : transparentize(0.5, p.theme.colors.neutrals[700])};
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
@@ -36,16 +38,13 @@ export const Form = styled.form`
 
 export const TextInput = styled.input`
   border-width: 1px;
-  background-color: ${(p) => p.theme.colors.neutrals[800]};
+  background-color: ${(p) => transparentize(0.1, p.theme.colors.neutrals[800])};
   color: ${(p) => p.theme.colors.neutrals[200]};
-  border-color: ${(p) => p.theme.colors.neutrals[900]};
+  border-color: ${(p) => transparentize(0.1, p.theme.colors.neutrals[900])};
   font-size: 14px;
   border-radius: 6px;
   margin-bottom: 12px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding: 8px 12px;
   font-family: inherit;
   transition: 0.2s ease-in-out;
   border-style: solid;
@@ -54,34 +53,9 @@ export const TextInput = styled.input`
   display: block;
   outline: 0;
 
-  &:hover {
-    border-color: ${(p) => p.theme.colors.primary[500]};
-  }
-`;
-
-export const FormButton = styled.button`
-  padding-left: 12px;
-  padding-right: 12px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  background-color: ${(p) => p.theme.colors.primary[500]};
-  border-color: ${(p) => p.theme.colors.primary[500]};
-  color: ${(p) => p.theme.colors.neutrals['000']};
-  text-decoration: none;
-  overflow: hidden;
-  width: 100%;
-  border-radius: 6px;
-  cursor: pointer;
-  outline: 0;
-  transition: 0.2s ease-in-out;
-  border: 1px solid transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-
-  &:hover {
-    background-color: ${(p) => p.theme.colors.primary[600]};
+  &:hover,
+  &:focus {
+    border-color: ${(p) => transparentize(0.1, p.theme.colors.primary[500])};
   }
 `;
 
@@ -105,29 +79,6 @@ export const Photo = styled.img`
   height: auto;
   border-radius: 50%;
   margin-bottom: 16px;
-`;
-
-export const SmallButton = styled.button`
-  background-color: ${(p) => p.theme.colors.primary[500]};
-  border-color: ${(p) => p.theme.colors.primary[600]};
-  color: ${(p) => p.theme.colors.neutrals['000']};
-  text-decoration: none;
-  overflow: hidden;
-  border-radius: 1000px;
-  padding: 1px 8px;
-  cursor: pointer;
-  outline: 0;
-  transition: 0.2s ease-in-out;
-  border: 1px solid transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-
-  &:hover {
-    color: ${(p) => p.theme.colors.neutrals['000']};
-    background-color: ${(p) => p.theme.colors.primary[700]};
-  }
 `;
 
 export const UserInfos = styled.div`

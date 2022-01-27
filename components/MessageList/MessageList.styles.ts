@@ -1,3 +1,4 @@
+import { transparentize } from 'polished';
 import styled from 'styled-components';
 
 export const MessageListWrapper = styled.ul`
@@ -18,7 +19,8 @@ export const ListItem = styled.li`
   transition: 0.2s ease-in-out;
 
   &:hover {
-    background-color: ${(p) => p.theme.colors.neutrals[700]};
+    background-color: ${(p) =>
+      transparentize(0.3, p.theme.colors.neutrals[500])};
   }
 `;
 
@@ -34,32 +36,4 @@ export const DataSpan = styled.data`
   font-size: 10px;
   margin-left: 8px;
   color: ${(p) => p.theme.colors.neutrals[300]};
-`;
-
-export const DeleteButton = styled.button`
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  padding-left: 12px;
-  padding-right: 12px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  background-color: #00000000;
-  border-color: ${(p) => p.theme.colors.neutrals[500]};
-  color: ${(p) => p.theme.colors.neutrals['300']};
-  font-size: 18px;
-  text-decoration: none;
-  overflow: hidden;
-  border-radius: 6px;
-  cursor: pointer;
-  outline: 0;
-  transition: 0.2s ease-in-out;
-  border: 1px solid transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background-color: ${(p) => p.theme.colors.neutrals[400]};
-  }
 `;

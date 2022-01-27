@@ -1,9 +1,10 @@
+import { transparentize } from 'polished';
 import styled from 'styled-components';
 
 export const SelectWrapper = styled.select`
   border-width: 1px;
-  background-color: ${(p) => p.theme.colors.neutrals[800]};
-  color: ${(p) => p.theme.colors.neutrals[200]};
+  background-color: ${(p) => transparentize(0.3, p.theme.colors.neutrals[800])};
+  color: ${(p) => p.theme.colors.neutrals[100]};
   border-color: ${(p) => p.theme.colors.neutrals[900]};
   font-size: 14px;
   border-radius: 6px;

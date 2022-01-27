@@ -2,10 +2,8 @@ import {
   LoginContainer,
   Form,
   TextInput,
-  FormButton,
   PhotoContainer,
   Photo,
-  SmallButton,
   UserInfos,
 } from '../components/styles/Login.styles';
 import { Title } from '../components/Typography/Title';
@@ -14,6 +12,7 @@ import { useTheme } from 'styled-components';
 import { ChangeEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import debounce from 'lodash.debounce';
+import { Button } from '../components/Button/Button';
 
 export default function PaginaInicial() {
   const theme = useTheme();
@@ -59,13 +58,16 @@ export default function PaginaInicial() {
           style={{
             marginTop: '8px',
             marginBottom: '32px',
-            color: theme.colors.neutrals[300],
+            color:
+              theme.name == 'Matrix'
+                ? theme.colors.neutrals[300]
+                : theme.colors.neutrals['050'],
           }}
         >
           {`Aluracord - ${theme.name} (${username})`}
         </Paragraph>
         <TextInput value={userInput} onChange={handleUserInput} />
-        <FormButton type="submit">Entrar</FormButton>
+        <Button type="submit" label="Entrar" />
       </Form>
       {/* Formulário */}
 
@@ -79,9 +81,12 @@ export default function PaginaInicial() {
           }
         />
         {username.length > 1 && (
-          <SmallButton type="button" onClick={fetchGithubUser}>
-            {username}
-          </SmallButton>
+          <Button
+            size={'small'}
+            type="button"
+            onClick={fetchGithubUser}
+            label={username}
+          />
         )}
         {user != null && (
           <UserInfos>
