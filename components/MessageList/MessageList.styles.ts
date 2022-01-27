@@ -15,6 +15,7 @@ export const ListItem = styled.li`
   padding: 6px;
   margin-bottom: 12px;
   margin-right: 16px;
+  transition: 0.2s ease-in-out;
 
   &:hover {
     background-color: ${(p) => p.theme.colors.neutrals[700]};
