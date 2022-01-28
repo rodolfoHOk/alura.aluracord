@@ -4,7 +4,11 @@ import { useTheme } from 'styled-components';
 import { Button } from '../Button/Button';
 import { FaSignOutAlt } from 'react-icons/fa';
 
-export function ChatHeader() {
+export interface ChatHeaderProps {
+  onLogout: () => void;
+}
+
+export function ChatHeader({ onLogout }: ChatHeaderProps) {
   const theme = useTheme();
 
   return (
@@ -20,6 +24,7 @@ export function ChatHeader() {
             <span style={{ marginLeft: '4px', marginTop: '-1px' }}>Logout</span>
           </>
         }
+        onClick={onLogout}
       />
     </HeaderWrapper>
   );

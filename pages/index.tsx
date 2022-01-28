@@ -9,28 +9,40 @@ import {
 import { Title } from '../components/Typography/Title';
 import { Paragraph } from '../components/Typography/Paragraph';
 import { useTheme } from 'styled-components';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import debounce from 'lodash.debounce';
 import { Button } from '../components/Button/Button';
+import { useAuth } from '../context/useAuth';
 
 export default function PaginaInicial() {
   const theme = useTheme();
   const router = useRouter();
+  const { user, signInUrl } = useAuth();
   const [username, setUsername] = useState('');
   const [userInput, setUserInput] = useState('');
-  const [user, setUser] = useState(null);
+  const [githubUser, setGithubUser] = useState(null);
 
   async function fetchGithubUser() {
     const response = await fetch(`https://api.github.com/users/${username}`);
     const userInfos = await response.json();
-    setUser(userInfos);
+    setGithubUser(userInfos);
   }
 
   function changeUsername(event: ChangeEvent<HTMLInputElement>) {
     if (event.target.value.length > 1) {
       setUsername(event.target.value);
-      setUser(null);
+      setGithubUser(null);
+    }
+  }
+
+  function enterWithGithub(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (user !== null && user !== undefined) {
+      router.push('/chat');
+    } else {
+      router.push(signInUrl);
     }
   }
 
@@ -41,15 +53,16 @@ export default function PaginaInicial() {
     debouncedChangeUsername(event);
   }
 
+  useEffect(() => {
+    if (user !== null && user !== undefined) {
+      router.push('/chat');
+    }
+  }, [user]);
+
   return (
     <LoginContainer>
       {/* Formulário */}
-      <Form
-        onSubmit={(event) => {
-          event.preventDefault();
-          router.push('/chat');
-        }}
-      >
+      <Form onSubmit={enterWithGithub}>
         <Title level={2} style={{ color: theme.colors.neutrals['000'] }}>
           {theme.name == 'Matrix' ? 'Boas vindas de volta!' : 'Boas vindas!'}
         </Title>
@@ -88,11 +101,11 @@ export default function PaginaInicial() {
             label={username}
           />
         )}
-        {user != null && (
+        {githubUser != null && (
           <UserInfos>
-            <Paragraph size={4}>{user.name}</Paragraph>
-            <Paragraph size={4}>{user.location}</Paragraph>
-            <Paragraph size={4}>{user.bio}</Paragraph>
+            <Paragraph size={4}>{githubUser.name}</Paragraph>
+            <Paragraph size={4}>{githubUser.location}</Paragraph>
+            <Paragraph size={4}>{githubUser.bio}</Paragraph>
           </UserInfos>
         )}
       </PhotoContainer>

@@ -3,6 +3,7 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useTheme } from 'styled-components';
+import { useAuth } from '../../context/useAuth';
 import { IconButton } from '../IconButton/IconButton';
 import { Paragraph } from '../Typography/Paragraph';
 import {
@@ -35,6 +36,7 @@ export function MessageList({
   isLoading,
 }: MessageListProps) {
   const theme = useTheme();
+  const { user } = useAuth();
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [userInfos, setUserInfos] = useState<any>({});
   const [loading, setLoading] = useState(false);
@@ -104,10 +106,12 @@ export function MessageList({
                 <strong>{message.from}</strong>
                 <DataSpan>{message.created_at.toLocaleString()}</DataSpan>
               </div>
-              <IconButton
-                icon={<FaRegTrashAlt />}
-                onClick={() => onDelete(message.id)}
-              />
+              {user.login === message.from && (
+                <IconButton
+                  icon={<FaRegTrashAlt />}
+                  onClick={() => onDelete(message.id)}
+                />
+              )}
               {message.content}
             </ListItem>
           ))}
