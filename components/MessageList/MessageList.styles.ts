@@ -32,8 +32,56 @@ export const AvatarImage = styled.img`
   margin-right: 8px;
 `;
 
-export const DataSpan = styled.data`
+export const DataSpan = styled.span`
   font-size: 10px;
   margin-left: 8px;
-  color: ${(p) => p.theme.colors.neutrals[300]};
+  color: ${(p) =>
+    p.theme.name === 'Matrix'
+      ? p.theme.colors.neutrals[300]
+      : p.theme.colors.neutrals[100]};
+`;
+
+export const UserInfo = styled.div`
+  position: absolute;
+  right: 96px;
+  top: 16px;
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: ${(p) => transparentize(0.2, p.theme.colors.neutrals[800])};
+
+  @media screen and (max-width: 768px) {
+    right: 32px;
+  }
+`;
+
+export const LoadingUserInfo = styled.div`
+  position: absolute;
+  right: 96px;
+  top: 16px;
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: ${(p) => transparentize(0.2, p.theme.colors.neutrals[800])};
+
+  @media screen and (max-width: 768px) {
+    right: 32px;
+  }
+`;
+
+export const Photo = styled.img`
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
 `;

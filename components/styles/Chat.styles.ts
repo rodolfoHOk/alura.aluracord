@@ -7,7 +7,7 @@ export const ChatContainer = styled.div`
   flex: 1;
   margin-top: 72px;
   box-shadow: 0 2px 10px 0 rgb(0 0 0 / 20%);
-  border-radius: 5px;
+  border-radius: 8px;
   background-color: ${(p) =>
     p.theme.name === 'Matrix'
       ? transparentize(0.06, p.theme.colors.neutrals[700])
@@ -25,9 +25,10 @@ export const MessagesContainer = styled.div`
   height: 80%;
   background-color: ${(p) =>
     p.theme.name === 'Matrix'
-      ? transparentize(0.5, p.theme.colors.neutrals[700])
+      ? transparentize(0.15, p.theme.colors.neutrals[700])
       : transparentize(0.75, p.theme.colors.neutrals[700])};
   flex-direction: column;
-  border-radius: 5px;
+  border-radius: 8px;
+  border: 1px solid ${(p) => transparentize(0.75, p.theme.colors.neutrals[999])};
   padding: 16px;
 `;

@@ -5,11 +5,35 @@ import {
 import { ChatHeader } from '../components/ChatHeader/ChatHeader';
 import { MessageInput } from '../components/MessageInput/MessageInput';
 import { MessageList, Message } from '../components/MessageList/MessageList';
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { useTheme } from 'styled-components';
+import { supabaseClient } from '../utils/supabaseClient';
 
 export default function Chat() {
+  const theme = useTheme();
   const [mensagem, setMensagem] = useState('');
   const [listaMensagens, setListaMensagens] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
+
+  useEffect(() => {
+    fetchSupabaseMessages();
+  }, [theme]);
+
+  function fetchSupabaseMessages() {
+    setLoading(true);
+    setSending(true);
+    supabaseClient
+      .from<Message>('mensagens')
+      .select('*')
+      .eq('theme', theme.name)
+      .order('id', { ascending: false })
+      .then(({ data }) => {
+        setListaMensagens(data);
+        setLoading(false);
+        setSending(false);
+      });
+  }
 
   function handleChangeMessageInput(event: ChangeEvent<HTMLTextAreaElement>) {
     setMensagem(event.target.value);
@@ -29,31 +53,57 @@ export default function Chat() {
   }
 
   function addNewMessage(messageContent: string) {
+    setSending(true);
     const novaMensagem: Message = {
-      id: new Date().getTime(),
       from: 'vanessametonini',
       content: messageContent,
-      timestamp: new Date(),
+      theme: theme.name,
     };
-    setListaMensagens([novaMensagem, ...listaMensagens]);
-    setMensagem('');
+
+    supabaseClient
+      .from<Message>('mensagens')
+      .insert(novaMensagem)
+      .then(({ data, status }) => {
+        if (status === 201) {
+          setListaMensagens([data[0], ...listaMensagens]);
+          setMensagem('');
+        }
+        setSending(false);
+      });
   }
 
   function handleDeleteClick(id) {
-    const novaLista = listaMensagens.filter((mensagem) => mensagem.id !== id);
-    setListaMensagens(novaLista);
+    setSending(true);
+    supabaseClient
+      .from<Message>('mensagens')
+      .delete()
+      .eq('id', id)
+      .then(({ status }) => {
+        if (status === 200) {
+          const novaLista = listaMensagens.filter(
+            (mensagem) => mensagem.id !== id
+          );
+          setListaMensagens(novaLista);
+        }
+        setSending(false);
+      });
   }
 
   return (
     <ChatContainer>
       <ChatHeader />
       <MessagesContainer>
-        <MessageList messages={listaMensagens} onDelete={handleDeleteClick} />
+        <MessageList
+          messages={listaMensagens}
+          onDelete={handleDeleteClick}
+          isLoading={loading}
+        />
         <MessageInput
           value={mensagem}
           onChange={handleChangeMessageInput}
           onKeyPress={handleKeyPressMessageInput}
           onSend={onClickSend}
+          isSending={sending}
         />
       </MessagesContainer>
     </ChatContainer>

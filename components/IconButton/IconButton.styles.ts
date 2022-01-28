@@ -22,6 +22,6 @@ export const StyledIconButton = styled.button`
 
   &:hover {
     background-color: ${(p) => p.theme.colors.neutrals[300]};
-    color: ${(p) => p.theme.colors.primary[500]};
+    color: ${(p) => p.theme.colors.primary[100]};
   }
 `;
