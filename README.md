@@ -9,6 +9,7 @@
 - Biblioteca de estilização : Styled Components
 - Autenticação : Oauth2 Authorization Code com Github
 - Back-End As A Service : Supabase
+- Api do Next Js : para manter a segurança do client_secret(Github) da aplicação
 
 ### 🗃️ Bibliotecas adicionais utilizadas 📚
 
