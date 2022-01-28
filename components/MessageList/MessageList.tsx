@@ -106,7 +106,7 @@ export function MessageList({
                 <strong>{message.from}</strong>
                 <DataSpan>{message.created_at.toLocaleString()}</DataSpan>
               </div>
-              {user.login === message.from && (
+              {user && user.login === message.from && (
                 <IconButton
                   icon={<FaRegTrashAlt />}
                   onClick={() => onDelete(message.id)}

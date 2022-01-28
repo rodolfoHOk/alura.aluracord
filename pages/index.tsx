@@ -80,7 +80,7 @@ export default function PaginaInicial() {
           {`Aluracord - ${theme.name} (${username})`}
         </Paragraph>
         <TextInput value={userInput} onChange={handleUserInput} />
-        <Button type="submit" label="Entrar" />
+        <Button type="submit" label="Entrar com Github" />
       </Form>
       {/* Formulário */}
 
