@@ -17,6 +17,7 @@ export const ListItem = styled.li`
   margin-bottom: 12px;
   margin-right: 16px;
   transition: 0.2s ease-in-out;
+  word-break: break-word;
 
   &:hover {
     background-color: ${(p) =>

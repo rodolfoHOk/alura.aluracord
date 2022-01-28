@@ -14,7 +14,8 @@ export interface User {
 
 interface AuthContextProps {
   user: User | null;
-  signInUrl: string;
+  loading: boolean;
+  signIn: (login?: string) => void;
   signOut: () => void;
 }
 
@@ -32,24 +33,42 @@ export const AuthContext = createContext({} as AuthContextProps);
 export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
   const [user, setUser] = useState<User>(null);
+  const [loading, setLoading] = useState(false);
 
   const clientId = process.env.NEXT_PUBLIC_CLIENT_ID;
   const scope = 'read.user';
-  const signInUrl = `https://github.com/login/oauth/authorize?scope=${scope}&client_id=${clientId}`;
 
-  async function signIn(githubCode: string) {
-    const response = await axios.post<AuthResponse>('/api/authenticate', {
-      code: githubCode,
-    });
-    const { user, token } = response.data;
+  function signIn(login?: string) {
+    setLoading(true);
+    let signInUrl: string = '';
 
-    localStorage.setItem('@aluracord:token', token);
-    setUser(user);
+    if (login) {
+      signInUrl = `https://github.com/login/oauth/authorize?scope=${scope}&client_id=${clientId}&login=${login}`;
+    } else {
+      signInUrl = `https://github.com/login/oauth/authorize?scope=${scope}&client_id=${clientId}`;
+    }
+
+    router.push(signInUrl);
   }
 
   function signOut() {
     localStorage.removeItem('@aluracord:token');
     setUser(null);
+  }
+
+  async function signInApi(githubCode: string) {
+    setLoading(true);
+    const response = await axios.post<AuthResponse>('/api/authenticate', {
+      code: githubCode,
+    });
+    const { user, token } = response.data;
+
+    if (response.status === 200) {
+      localStorage.setItem('@aluracord:token', token);
+      setUser(user);
+      router.push('/chat');
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -64,14 +83,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const code = new URLSearchParams(window.location.search).get('code');
 
     if (code) {
-      router.push('/');
-
-      signIn(code);
+      signInApi(code);
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, signInUrl, signOut }}>
+    <AuthContext.Provider value={{ user, loading, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

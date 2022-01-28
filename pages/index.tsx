@@ -18,7 +18,7 @@ import { useAuth } from '../context/useAuth';
 export default function PaginaInicial() {
   const theme = useTheme();
   const router = useRouter();
-  const { user, signInUrl } = useAuth();
+  const { user, signIn, loading } = useAuth();
   const [username, setUsername] = useState('');
   const [userInput, setUserInput] = useState('');
   const [githubUser, setGithubUser] = useState(null);
@@ -42,7 +42,7 @@ export default function PaginaInicial() {
     if (user !== null && user !== undefined) {
       router.push('/chat');
     } else {
-      router.push(signInUrl);
+      signIn(username);
     }
   }
 
@@ -52,12 +52,6 @@ export default function PaginaInicial() {
     setUserInput(event.target.value);
     debouncedChangeUsername(event);
   }
-
-  useEffect(() => {
-    if (user !== null && user !== undefined) {
-      router.push('/chat');
-    }
-  }, [user]);
 
   return (
     <LoginContainer>

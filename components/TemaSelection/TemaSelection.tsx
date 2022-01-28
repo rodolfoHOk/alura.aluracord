@@ -20,7 +20,10 @@ export default function TemaSelection({ setTheme }: TemaSelectionProps) {
   ];
 
   useEffect(() => {
-    if (themes[selectedOption] != null) setTheme(themes[selectedOption]);
+    if (themes[selectedOption] != null) {
+      setTheme(themes[selectedOption]);
+      localStorage.setItem('@aluracord:theme', selectedOption);
+    }
   }, [selectedOption]);
 
   return (
