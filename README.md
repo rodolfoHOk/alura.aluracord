@@ -2,6 +2,8 @@
 
 > Projeto da Imersão React 4 da @alura com @omariosouto e @peas
 
+<img src="https://raw.githubusercontent.com/rodolfoHOk/portfolio-img/main/images/aluracord-1.png" alt="Aluracord Img2" width="450"/>
+
 ## 👨‍💻 Tecnologias utilizadas 👩‍💻
 
 - Linguagem : Typescript / Javascript
@@ -32,6 +34,13 @@
 - Utilização da Api do Next Js para segurança da autenticação
 - Dois temas para escolha com mensagens separadas para cada uma tema
 - Utilização dos hooks e context do Styled Components para os temas
+
+## Outras imagens
+
+<img src="https://raw.githubusercontent.com/rodolfoHOk/portfolio-img/main/images/aluracord-2.png" alt="Aluracord Img2" width="450"/>
+<img src="https://raw.githubusercontent.com/rodolfoHOk/portfolio-img/main/images/aluracord-3.png" alt="Aluracord Img3" width="450"/>
+<img src="https://raw.githubusercontent.com/rodolfoHOk/portfolio-img/main/images/aluracord-5.png" alt="Aluracord Img5" width="450"/>
+<img src="https://raw.githubusercontent.com/rodolfoHOk/portfolio-img/main/images/aluracord-4.png" alt="Aluracord Img4" width="450"/>
 
 ## 🐈‍⬛🐙 Oauth do Github
 
