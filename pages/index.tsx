@@ -9,7 +9,7 @@ import {
 import { Title } from '../components/Typography/Title';
 import { Paragraph } from '../components/Typography/Paragraph';
 import { useTheme } from 'styled-components';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import debounce from 'lodash.debounce';
 import { Button } from '../components/Button/Button';
@@ -22,17 +22,26 @@ export default function PaginaInicial() {
   const [username, setUsername] = useState('');
   const [userInput, setUserInput] = useState('');
   const [githubUser, setGithubUser] = useState(null);
+  const [userInputError, setUserInputError] = useState('');
 
   async function fetchGithubUser() {
     const response = await fetch(`https://api.github.com/users/${username}`);
     const userInfos = await response.json();
-    setGithubUser(userInfos);
+    if (!userInfos.message) {
+      setGithubUser(userInfos);
+    } else if (userInfos.message === 'Not Found') {
+      console.error('Usuário não encontrado');
+    } else {
+      console.error('Erro ao tentar buscar dados do usuário');
+    }
   }
 
   function changeUsername(event: ChangeEvent<HTMLInputElement>) {
     if (event.target.value.length > 1) {
+      setUserInputError('');
       setUsername(event.target.value);
-      setGithubUser(null);
+    } else {
+      setUserInputError('Nome de usuário deve ter ao menos 2 caracteres');
     }
   }
 
@@ -74,7 +83,23 @@ export default function PaginaInicial() {
           {`Aluracord - ${theme.name} (${username})`}
         </Paragraph>
         <TextInput value={userInput} onChange={handleUserInput} />
-        <Button type="submit" label="Entrar com Github" />
+        {userInputError && (
+          <Paragraph
+            size={3}
+            style={{
+              color: '#db0000',
+              alignSelf: 'flex-start',
+              padding: '2px 4px',
+            }}
+          >
+            {userInputError}
+          </Paragraph>
+        )}
+        <Button
+          type="submit"
+          label="Entrar com Github"
+          style={{ marginTop: 16 }}
+        />
       </Form>
       {/* Formulário */}
 
@@ -82,12 +107,12 @@ export default function PaginaInicial() {
       <PhotoContainer>
         <Photo
           src={
-            username.length > 1
+            !userInputError && username
               ? `https://github.com/${username}.png`
               : 'avatar.png'
           }
         />
-        {username.length > 1 && (
+        {username && (
           <Button
             size={'small'}
             type="button"
@@ -95,7 +120,7 @@ export default function PaginaInicial() {
             label={username}
           />
         )}
-        {githubUser != null && (
+        {githubUser && (
           <UserInfos>
             <Paragraph size={4}>{githubUser.name}</Paragraph>
             <Paragraph size={4}>{githubUser.location}</Paragraph>

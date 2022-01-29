@@ -43,7 +43,6 @@ export const TextInput = styled.input`
   border-color: ${(p) => transparentize(0.1, p.theme.colors.neutrals[900])};
   font-size: 14px;
   border-radius: 6px;
-  margin-bottom: 12px;
   padding: 8px 12px;
   font-family: inherit;
   transition: 0.2s ease-in-out;
