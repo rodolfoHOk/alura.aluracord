@@ -10,6 +10,7 @@
 - Autenticação : Oauth2 Authorization Code com Github
 - Back-End As A Service : Supabase
 - Api do Next Js : para manter a segurança do client_secret(Github) da aplicação
+- Dados em tempo real : WebSocket com Supabase
 
 ### 🗃️ Bibliotecas adicionais utilizadas 📚
 

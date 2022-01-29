@@ -14,6 +14,7 @@ import {
   UserInfo,
   LoadingUserInfo,
   Photo,
+  StickerImage,
 } from './MessageList.styles';
 
 export interface Message {
@@ -112,7 +113,13 @@ export function MessageList({
                   onClick={() => onDelete(message.id)}
                 />
               )}
-              {message.content}
+              {message.content.startsWith(':sticker:') ? (
+                <StickerImage
+                  src={message.content.replace(':sticker:', '').trim()}
+                />
+              ) : (
+                message.content
+              )}
             </ListItem>
           ))}
       {showUserInfo &&

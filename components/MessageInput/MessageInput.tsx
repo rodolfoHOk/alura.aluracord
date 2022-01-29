@@ -1,27 +1,40 @@
-import { TextareaHTMLAttributes, VideoHTMLAttributes } from 'react';
+import { TextareaHTMLAttributes } from 'react';
 import { FaSync } from 'react-icons/fa';
+import { BiSend } from 'react-icons/bi';
 import { Button } from '../Button/Button';
-import { MessageInputWrapper, TextInput } from './MessageInput.styles';
+import { Actions, MessageInputWrapper, TextInput } from './MessageInput.styles';
+import { ButtonSendSticker } from '../ButtonSendSticker/ButtonSendSticker';
 
 export interface MessageInputProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  onSend: () => void;
+  onSendClick: () => void;
   isSending: boolean;
+  onStickerClick: (sticker: string) => void;
 }
 
 export function MessageInput({
-  onSend,
+  onSendClick,
   isSending,
+  onStickerClick,
   ...props
 }: MessageInputProps) {
   return (
     <MessageInputWrapper>
       <TextInput placeholder="Insira sua mensagem aqui..." {...props} />
-      <Button
-        size={'large'}
-        onClick={onSend}
-        label={isSending ? <FaSync className="spinner" /> : 'Enviar'}
-      />
+      <Actions>
+        <Button
+          size={'large'}
+          onClick={onSendClick}
+          label={
+            isSending ? (
+              <FaSync className="spinner" size={20} />
+            ) : (
+              <BiSend size={28} />
+            )
+          }
+        />
+        <ButtonSendSticker onStickerClick={onStickerClick} />
+      </Actions>
     </MessageInputWrapper>
   );
 }

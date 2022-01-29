@@ -48,7 +48,7 @@ export default function Chat() {
     }
   }
 
-  function onClickSend() {
+  function onSendClick() {
     addNewMessage(mensagem);
   }
 
@@ -63,10 +63,11 @@ export default function Chat() {
     supabaseClient
       .from<Message>('mensagens')
       .insert(novaMensagem)
-      .then(({ data, status }) => {
-        if (status === 201) {
-          setListaMensagens([data[0], ...listaMensagens]);
+      .then(({ status }) => {
+        if (status === 200) {
           setMensagem('');
+        } else {
+          console.error('Erro ao tentar enviar nova mensagem');
         }
         setSending(false);
       });
@@ -79,18 +80,41 @@ export default function Chat() {
       .delete()
       .eq('id', id)
       .then(({ status }) => {
-        if (status === 200) {
-          const novaLista = listaMensagens.filter(
-            (mensagem) => mensagem.id !== id
-          );
-          setListaMensagens(novaLista);
+        if (status !== 200) {
+          console.error('Erro ao tentar excluir mensagem de id: ' + id);
         }
         setSending(false);
       });
   }
 
+  function onStickerClick(stickerSrc: string) {
+    addNewMessage(`:sticker: ${stickerSrc}`);
+  }
+
+  function listenerMessagesInRealTime() {
+    return supabaseClient
+      .from<Message>('mensagens')
+      .on('INSERT', (data) => {
+        if (data.new.theme === theme.name) {
+          setListaMensagens((valorAtualDaListaMensagens) => [
+            data.new,
+            ...valorAtualDaListaMensagens,
+          ]);
+        }
+      })
+      .on('DELETE', (data) => {
+        setListaMensagens((valorAtualDaListaMensagens) =>
+          valorAtualDaListaMensagens.filter(
+            (mensagem) => mensagem.id !== data.old.id
+          )
+        );
+      })
+      .subscribe();
+  }
+
   useEffect(() => {
     fetchSupabaseMessages();
+    listenerMessagesInRealTime();
   }, [theme]);
 
   useEffect(() => {
@@ -112,7 +136,8 @@ export default function Chat() {
           value={mensagem}
           onChange={handleChangeMessageInput}
           onKeyPress={handleKeyPressMessageInput}
-          onSend={onClickSend}
+          onSendClick={onSendClick}
+          onStickerClick={onStickerClick}
           isSending={sending}
         />
       </MessagesContainer>

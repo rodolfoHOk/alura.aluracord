@@ -68,6 +68,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setUser(user);
       router.push('/chat');
       setLoading(false);
+    } else {
+      console.error('Erro ao tentar autenticar usuário');
     }
   }
 

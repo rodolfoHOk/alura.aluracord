@@ -7,8 +7,7 @@ type StyledButtonProps = {
 };
 
 export const StyledButton = styled.button<StyledButtonProps>`
-  padding: ${(p) =>
-    p.size === 'small' || p.size === 'large' ? '1px 8px' : '8px 12px'};
+  padding: ${(p) => (p.size === 'small' ? '1px 8px' : '8px 12px')};
   background-color: ${(p) =>
     p.variant === 'transparent'
       ? '#00000000'
@@ -24,15 +23,18 @@ export const StyledButton = styled.button<StyledButtonProps>`
     p.size === 'small' || p.variant === 'transparent'
       ? 'nome'
       : p.size === 'large'
-      ? '64px'
+      ? '50px'
       : '100%'};
-  height: ${(p) => (p.size === 'large' ? '64px' : 'none')};
-  border-radius: ${(p) => (p.size === 'small' ? '1000px' : '6px')};
+  height: ${(p) => (p.size === 'large' ? '50px' : 'none')};
+  min-width: ${(p) => (p.size === 'large' ? '50px' : 'auto')};
+  min-height: ${(p) => (p.size === 'large' ? '50px' : 'auto')};
+  border-radius: ${(p) =>
+    p.size === 'small' || p.size === 'large' ? '1000px' : '6px'};
   cursor: pointer;
   outline: 0;
   transition: 0.2s ease-in-out;
   border: 1px solid transparent;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   position: relative;

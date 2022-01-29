@@ -86,3 +86,10 @@ export const Photo = styled.img`
   height: auto;
   border-radius: 16px;
 `;
+
+export const StickerImage = styled.img`
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+`;
