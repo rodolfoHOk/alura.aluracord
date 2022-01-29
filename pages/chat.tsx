@@ -64,10 +64,10 @@ export default function Chat() {
       .from<Message>('mensagens')
       .insert(novaMensagem)
       .then(({ status }) => {
-        if (status === 200) {
+        if (status === 201) {
           setMensagem('');
         } else {
-          console.error('Erro ao tentar enviar nova mensagem');
+          console.error('Erro ao tentar enviar nova mensagem', status);
         }
         setSending(false);
       });
