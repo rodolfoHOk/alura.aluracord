@@ -1,3 +1,5 @@
+import { format, parseISO } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { MouseEvent, useState } from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import Skeleton from 'react-loading-skeleton';
@@ -105,7 +107,11 @@ export function MessageList({
                   }
                 />
                 <strong>{message.from}</strong>
-                <DataSpan>{message.created_at.toLocaleString()}</DataSpan>
+                <DataSpan>
+                  {format(new Date(message.created_at), 'd MMM yyyy HH:mm', {
+                    locale: ptBR,
+                  })}
+                </DataSpan>
               </div>
               {user && user.login === message.from && (
                 <IconButton

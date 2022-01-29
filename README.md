@@ -22,6 +22,16 @@
 - react-loading-skeleton : Componente React - Esqueletos de carregamento animados
 - styled-components: Estilização dos componentes para React JS
 
+## O que fiz além das aulas e dos desafios
+
+- Typescript
+- Migração para o Styled Components
+- Autenticação Oauth2 Authorization Code do Github
+- Utilização da Context Api do React para Autenticação
+- Utilização da Api do Next Js para segurança da autenticação
+- Dois temas para escolha com mensagens separadas para cada uma tema
+- Utilização dos hooks e context do Styled Components para os temas
+
 ## 🐈‍⬛🐙 Oauth do Github
 
 - Cadastrar aplicação no oauth do Github:
