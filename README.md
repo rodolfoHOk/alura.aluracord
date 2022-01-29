@@ -16,6 +16,7 @@
 
 - @supabase/supabase-js : Client javascript do Supabase
 - axios : HTTP client
+- date-fns : Formatar datas para hora local e em pt-BR
 - lodash.debounce : O método debounce da Biblioteca Lodash, para executar uma função somente depois de algum tempo sem o usuário digitar algo, evita multiplas requisições ao servidor.
 - polished : Adiciona transparências nas cores principais de projeto (CSS)
 - react-icons : ícones para ReactJs
