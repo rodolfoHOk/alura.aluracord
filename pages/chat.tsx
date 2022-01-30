@@ -11,6 +11,7 @@ import { supabaseClient } from '../utils/supabaseClient';
 import { useAuth } from '../context/useAuth';
 import { useRouter } from 'next/router';
 import Toast from '../components/Toast/Toast';
+import { Paragraph } from '../components/Typography/Paragraph';
 
 export default function Chat() {
   const theme = useTheme();
@@ -21,6 +22,7 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [validationError, setValidationError] = useState('');
 
   function fetchSupabaseMessages() {
     setLoading(true);
@@ -55,24 +57,30 @@ export default function Chat() {
   }
 
   function addNewMessage(messageContent: string) {
-    setSending(true);
-    const novaMensagem: Message = {
-      from: user.login,
-      content: messageContent,
-      theme: theme.name,
-    };
+    setValidationError('');
 
-    supabaseClient
-      .from<Message>('mensagens')
-      .insert(novaMensagem)
-      .then(({ status }) => {
-        if (status === 201) {
-          setMensagem('');
-        } else {
-          setErrorMessage('Erro ao tentar enviar nova mensagem');
-        }
-        setSending(false);
-      });
+    if (messageContent.length > 1) {
+      setSending(true);
+      const novaMensagem: Message = {
+        from: user.login,
+        content: messageContent,
+        theme: theme.name,
+      };
+
+      supabaseClient
+        .from<Message>('mensagens')
+        .insert(novaMensagem)
+        .then(({ status }) => {
+          if (status === 201) {
+            setMensagem('');
+          } else {
+            setErrorMessage('Erro ao tentar enviar nova mensagem');
+          }
+          setSending(false);
+        });
+    } else {
+      setValidationError('Mensagem deve ter ao menos dois caracteres');
+    }
   }
 
   function handleDeleteClick(id) {
@@ -146,6 +154,18 @@ export default function Chat() {
           onStickerClick={onStickerClick}
           isSending={sending}
         />
+        {validationError && (
+          <Paragraph
+            size={3}
+            style={{
+              color: '#db0000',
+              alignSelf: 'flex-start',
+              padding: '2px 4px',
+            }}
+          >
+            {validationError}
+          </Paragraph>
+        )}
       </MessagesContainer>
       <Toast
         success={false}
