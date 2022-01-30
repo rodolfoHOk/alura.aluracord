@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import debounce from 'lodash.debounce';
 import { Button } from '../components/Button/Button';
 import { useAuth } from '../context/useAuth';
+import Toast from '../components/Toast/Toast';
 
 export default function PaginaInicial() {
   const theme = useTheme();
@@ -23,6 +24,7 @@ export default function PaginaInicial() {
   const [userInput, setUserInput] = useState('');
   const [githubUser, setGithubUser] = useState(null);
   const [userInputError, setUserInputError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   async function fetchGithubUser() {
     const response = await fetch(`https://api.github.com/users/${username}`);
@@ -30,9 +32,9 @@ export default function PaginaInicial() {
     if (!userInfos.message) {
       setGithubUser(userInfos);
     } else if (userInfos.message === 'Not Found') {
-      console.error('Usuário não encontrado');
+      setErrorMessage('Usuário não encontrado');
     } else {
-      console.error('Erro ao tentar buscar dados do usuário');
+      setErrorMessage('Erro ao tentar buscar dados do usuário');
     }
   }
 
@@ -60,6 +62,10 @@ export default function PaginaInicial() {
   function handleUserInput(event: ChangeEvent<HTMLInputElement>) {
     setUserInput(event.target.value);
     debouncedChangeUsername(event);
+  }
+
+  function onCloseToast() {
+    setErrorMessage('');
   }
 
   return (
@@ -129,6 +135,13 @@ export default function PaginaInicial() {
         )}
       </PhotoContainer>
       {/* Photo Area */}
+      <Toast
+        success={false}
+        show={!!errorMessage}
+        duration={3000}
+        message={errorMessage}
+        onClose={onCloseToast}
+      />
     </LoginContainer>
   );
 }

@@ -10,6 +10,7 @@ import { useTheme } from 'styled-components';
 import { supabaseClient } from '../utils/supabaseClient';
 import { useAuth } from '../context/useAuth';
 import { useRouter } from 'next/router';
+import Toast from '../components/Toast/Toast';
 
 export default function Chat() {
   const theme = useTheme();
@@ -19,6 +20,7 @@ export default function Chat() {
   const [listaMensagens, setListaMensagens] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   function fetchSupabaseMessages() {
     setLoading(true);
@@ -67,7 +69,7 @@ export default function Chat() {
         if (status === 201) {
           setMensagem('');
         } else {
-          console.error('Erro ao tentar enviar nova mensagem', status);
+          setErrorMessage('Erro ao tentar enviar nova mensagem');
         }
         setSending(false);
       });
@@ -81,7 +83,7 @@ export default function Chat() {
       .eq('id', id)
       .then(({ status }) => {
         if (status !== 200) {
-          console.error('Erro ao tentar excluir mensagem de id: ' + id);
+          setErrorMessage('Erro ao tentar excluir mensagem de id: ' + id);
         }
         setSending(false);
       });
@@ -110,6 +112,10 @@ export default function Chat() {
         );
       })
       .subscribe();
+  }
+
+  function onClose() {
+    setErrorMessage('');
   }
 
   useEffect(() => {
@@ -141,6 +147,13 @@ export default function Chat() {
           isSending={sending}
         />
       </MessagesContainer>
+      <Toast
+        success={false}
+        show={!!errorMessage}
+        duration={3000}
+        message={errorMessage}
+        onClose={onClose}
+      />
     </ChatContainer>
   );
 }

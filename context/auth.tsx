@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import Toast from '../components/Toast/Toast';
 
 export interface User {
   id?: number;
@@ -34,6 +35,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
   const [user, setUser] = useState<User>(null);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const clientId = process.env.NEXT_PUBLIC_CLIENT_ID;
   const scope = 'read.user';
@@ -69,8 +71,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       router.push('/chat');
       setLoading(false);
     } else {
-      console.error('Erro ao tentar autenticar usuário');
+      setErrorMessage('Erro ao tentar autenticar usuário');
     }
+  }
+
+  function onCloseToast() {
+    setErrorMessage('');
   }
 
   useEffect(() => {
@@ -92,6 +98,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   return (
     <AuthContext.Provider value={{ user, loading, signIn, signOut }}>
       {children}
+      <Toast
+        success={false}
+        show={!!errorMessage}
+        duration={3000}
+        message={errorMessage}
+        onClose={onCloseToast}
+      />
     </AuthContext.Provider>
   );
 }
