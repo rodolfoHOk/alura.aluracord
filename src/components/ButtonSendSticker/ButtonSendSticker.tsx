@@ -9,7 +9,7 @@ import {
   StickerModal,
   StickersList,
 } from './ButtonSendSticker.styles';
-import appConfig from '../../config.json';
+import appConfig from '../../../config.json';
 
 export interface ButtonSendStickerProps {
   onStickerClick: (sticker: string) => void;
