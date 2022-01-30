@@ -61,7 +61,8 @@
   do Github
 - O servidor de autenticação retorna para a url de callback cadastrada com um code nos
   parâmetros da url
-- Pegamos este code e através da api do next fazemos a requisição do token passando
+- Pegamos este code e fazemos uma requisição para a API do next passando o code no corpo.
+- Através da api do next fazemos a requisição do token passando
   no header da requisição o client_id o client_secret e o code no corpo da requisição
 - O servidor de autenticação retorna o access_token no corpo da resposta
 - Com o access_token pedimos a api do github os dados do usuário através da api do next
