@@ -30,7 +30,7 @@ export function MessageInput({
   return (
     <MessageInputWrapper>
       <InputContainer>
-        <AvatarImage src={user.avatar_url} />
+        {user && <AvatarImage src={user.avatar_url} />}
         <TextInput placeholder="Insira sua mensagem aqui..." {...props} />
       </InputContainer>
       <Actions>
