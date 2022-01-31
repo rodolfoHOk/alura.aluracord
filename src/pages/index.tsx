@@ -15,7 +15,7 @@ import debounce from 'lodash.debounce';
 import { Button } from '../components/Button/Button';
 import { useAuth } from '../context/useAuth';
 import Toast from '../components/Toast/Toast';
-import { FaCaretDown } from 'react-icons/fa';
+import { FaCaretDown, FaGithub } from 'react-icons/fa';
 
 export default function PaginaInicial() {
   const theme = useTheme();
@@ -105,7 +105,12 @@ export default function PaginaInicial() {
         )}
         <Button
           type="submit"
-          label="Entrar com Github"
+          label={
+            <>
+              {'Entrar com Github'}{' '}
+              <FaGithub style={{ marginLeft: 8 }} size={16} />
+            </>
+          }
           style={{ marginTop: 16 }}
         />
       </Form>
