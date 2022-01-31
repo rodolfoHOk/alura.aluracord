@@ -13,6 +13,13 @@ export const MessageInputWrapper = styled.div`
   }
 `;
 
+export const AvatarImage = styled.img`
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+`;
+
 export const TextInput = styled.textarea`
   border-width: 1px;
   background-color: ${(p) => transparentize(0.1, p.theme.colors.neutrals[800])};
@@ -33,6 +40,14 @@ export const TextInput = styled.textarea`
   &:focus {
     border-color: ${(p) => transparentize(0.1, p.theme.colors.primary[500])};
   }
+`;
+
+export const InputContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
 `;
 
 export const Actions = styled.div`

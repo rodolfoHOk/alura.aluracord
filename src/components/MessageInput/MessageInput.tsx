@@ -2,8 +2,15 @@ import { TextareaHTMLAttributes } from 'react';
 import { FaSync } from 'react-icons/fa';
 import { BiSend } from 'react-icons/bi';
 import { Button } from '../Button/Button';
-import { Actions, MessageInputWrapper, TextInput } from './MessageInput.styles';
+import {
+  Actions,
+  AvatarImage,
+  InputContainer,
+  MessageInputWrapper,
+  TextInput,
+} from './MessageInput.styles';
 import { ButtonSendSticker } from '../ButtonSendSticker/ButtonSendSticker';
+import { useAuth } from '../../context/useAuth';
 
 export interface MessageInputProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -18,9 +25,14 @@ export function MessageInput({
   onStickerClick,
   ...props
 }: MessageInputProps) {
+  const { user } = useAuth();
+
   return (
     <MessageInputWrapper>
-      <TextInput placeholder="Insira sua mensagem aqui..." {...props} />
+      <InputContainer>
+        <AvatarImage src={user.avatar_url} />
+        <TextInput placeholder="Insira sua mensagem aqui..." {...props} />
+      </InputContainer>
       <Actions>
         <Button
           size={'large'}
