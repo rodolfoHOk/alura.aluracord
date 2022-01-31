@@ -156,7 +156,7 @@ export default function Chat() {
         />
         {validationError && (
           <Paragraph
-            size={3}
+            size={4}
             style={{
               color: '#db0000',
               alignSelf: 'flex-start',

@@ -93,7 +93,7 @@ export default function PaginaInicial() {
         <TextInput value={userInput} onChange={handleUserInput} />
         {userInputError && (
           <Paragraph
-            size={3}
+            size={4}
             style={{
               color: '#db0000',
               alignSelf: 'flex-start',
