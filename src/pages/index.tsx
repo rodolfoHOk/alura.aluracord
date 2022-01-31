@@ -15,6 +15,7 @@ import debounce from 'lodash.debounce';
 import { Button } from '../components/Button/Button';
 import { useAuth } from '../context/useAuth';
 import Toast from '../components/Toast/Toast';
+import { FaCaretDown } from 'react-icons/fa';
 
 export default function PaginaInicial() {
   const theme = useTheme();
@@ -41,6 +42,7 @@ export default function PaginaInicial() {
   function changeUsername(event: ChangeEvent<HTMLInputElement>) {
     if (event.target.value.length > 1) {
       setUserInputError('');
+      setGithubUser(null);
       setUsername(event.target.value);
     } else {
       setUserInputError('Nome de usuário deve ter ao menos 2 caracteres');
@@ -117,13 +119,22 @@ export default function PaginaInicial() {
               ? `https://github.com/${username}.png`
               : 'avatar.png'
           }
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null;
+            currentTarget.src = 'avatar.png';
+          }}
         />
         {username && (
           <Button
             size={'small'}
             type="button"
             onClick={fetchGithubUser}
-            label={username}
+            label={
+              <>
+                {username}
+                {!githubUser && <FaCaretDown />}
+              </>
+            }
           />
         )}
         {githubUser && (
