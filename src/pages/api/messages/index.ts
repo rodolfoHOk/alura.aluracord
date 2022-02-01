@@ -1,14 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Message } from '../../../components/MessageList/MessageList';
 import { supabaseClient } from '../../../utils/supabaseClient';
-import { decode, JwtPayload } from 'jsonwebtoken';
+import { verifyAuthentication } from '../../../utils/verifyAuthentication';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const token = req.headers.authorization.replace('Bearer ', '');
-  const decodedToken = decode(token);
-  const { user } = decodedToken as JwtPayload;
+  const token = req.headers.authorization;
 
-  if (token && user && user.name) {
+  if (verifyAuthentication(token)) {
     switch (req.method) {
       case 'GET':
         const { themeName } = req.query;
@@ -46,6 +44,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(405).json({ error: 'Método não permitido' });
     }
   } else {
-    res.status(401).json({ error: 'não autorizado' });
+    res.status(401).json({ error: 'Acesso não autorizado' });
   }
 };

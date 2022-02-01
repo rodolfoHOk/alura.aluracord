@@ -30,17 +30,20 @@ export default function Chat() {
     setLoading(true);
     setSending(true);
 
-    api.get<Message[]>(`/messages?themeName=${theme.name}`).then((response) => {
-      if (response.status === 200) {
-        setListaMensagens(response.data);
-      } else {
+    api
+      .get<Message[]>(`/messages?themeName=${theme.name}`)
+      .then((response) => {
+        if (response.status === 200) setListaMensagens(response.data);
+      })
+      .catch((error) => {
         setErrorMessage(
-          `Erro ao tentar buscar mensagens. Erro: ${response.status}`
+          `Erro ${error.response.status}: ${error.response.data.error}`
         );
-      }
-      setLoading(false);
-      setSending(false);
-    });
+      })
+      .finally(() => {
+        setLoading(false);
+        setSending(false);
+      });
   }
 
   function handleChangeMessageInput(event: ChangeEvent<HTMLTextAreaElement>) {
@@ -71,16 +74,19 @@ export default function Chat() {
         theme: theme.name,
       };
 
-      api.post('/messages', { novaMensagem }).then((response) => {
-        if (response.status === 201) {
-          setMensagem('');
-        } else {
+      api
+        .post('/messages', { novaMensagem })
+        .then((response) => {
+          if (response.status === 201) setMensagem('');
+        })
+        .catch((error) => {
           setErrorMessage(
-            `Erro ao tentar enviar nova mensagem. Erro: ${response.status}`
+            `Erro ${error.response.status}: ${error.response.data.error}`
           );
-        }
-        setSending(false);
-      });
+        })
+        .finally(() => {
+          setSending(false);
+        });
     } else {
       setValidationError('Mensagem deve ter ao menos dois caracteres');
     }
@@ -89,14 +95,17 @@ export default function Chat() {
   function handleDeleteClick(id) {
     setSending(true);
 
-    api.delete(`/messages/${id}`).then((response) => {
-      if (response.status !== 200) {
+    api
+      .delete(`/messages/${id}`)
+      .then(() => {})
+      .catch((error) => {
         setErrorMessage(
-          `Erro ao tentar excluir mensagem. Erro: ${response.status}`
+          `Erro ${error.response.status}: ${error.response.data.error}`
         );
-      }
-      setSending(false);
-    });
+      })
+      .finally(() => {
+        setSending(false);
+      });
   }
 
   function onStickerClick(stickerSrc: string) {

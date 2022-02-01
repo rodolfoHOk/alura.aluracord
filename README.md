@@ -19,6 +19,7 @@
 - @supabase/supabase-js : Client javascript do Supabase
 - axios : HTTP client
 - date-fns : Formatar datas para hora local e em pt-BR
+- jsonwebtoken : implementador JWT
 - lodash.debounce : O método debounce da Biblioteca Lodash, para executar uma função somente depois de algum tempo sem o usuário digitar algo, evita multiplas requisições ao servidor.
 - polished : Adiciona transparências nas cores principais de projeto (CSS)
 - react-icons : ícones para ReactJs
@@ -34,6 +35,9 @@
 - Utilização da Api do Next Js para segurança da autenticação
 - Dois temas para escolha com mensagens separadas para cada uma tema
 - Utilização dos hooks e context do Styled Components para os temas
+- Implementação de JWT com informações do usuário do github utilizado para acessar
+  os dados do supabase através da Api do next, o qual valida o token e permite ou
+  não o acesso.
 
 ## 🖼️ Outras imagens 🖼️
 
