@@ -32,8 +32,8 @@
 - Migração para o Styled Components
 - Autenticação Oauth2 Authorization Code do Github
 - Utilização da Context Api do React para Autenticação
-- Utilização da Api do Next Js para segurança da autenticação
-- Dois temas para escolha com mensagens separadas para cada uma tema
+- Utilização da Api do Next Js para segurança
+- Dois temas para escolha com mensagens separadas para cada um
 - Utilização dos hooks e context do Styled Components para os temas
 - Implementação de JWT com informações do usuário do github utilizado para acessar
   os dados do supabase através da Api do next, o qual valida o token e permite ou
@@ -46,7 +46,7 @@
 <img src="https://raw.githubusercontent.com/rodolfoHOk/portfolio-img/main/images/aluracord-5.png" alt="Aluracord Img5" width="450"/>
 <img src="https://raw.githubusercontent.com/rodolfoHOk/portfolio-img/main/images/aluracord-4.png" alt="Aluracord Img4" width="450"/>
 
-## 🐈‍⬛🐙 Oauth do Github 🐈‍⬛🐙
+## 🐈‍⬛🐙 Guia do Oauth do Github 🐈‍⬛🐙
 
 - Cadastrar aplicação no oauth do Github:
   - acessar : Perfil / Settings / Developer settings -> Oauth Apps -> New Oauth App
@@ -57,7 +57,7 @@
   fiz a requisição do token através da api do next (Server Side).
 - Adicionar os environment variables na página do projeto na Vercel.
 
-## 🔒 Fluxo de Autenticação (Authorization code) 🔐
+## 🔒 Guia do Fluxo de Autenticação (Authorization code) 🔐
 
 - Pedir autorização para o servidor de autenticação do Github passando o client_id e o escopo
 - O servidor de autenticação pede para o usuário fazer o login na conta do GitHub
