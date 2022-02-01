@@ -20,7 +20,7 @@ import { FaCaretDown, FaGithub } from 'react-icons/fa';
 export default function PaginaInicial() {
   const theme = useTheme();
   const router = useRouter();
-  const { user, signIn, loading } = useAuth();
+  const { user, signIn } = useAuth();
   const [username, setUsername] = useState('');
   const [userInput, setUserInput] = useState('');
   const [githubUser, setGithubUser] = useState(null);

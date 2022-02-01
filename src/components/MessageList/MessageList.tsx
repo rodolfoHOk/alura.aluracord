@@ -1,10 +1,9 @@
-import { format, parseISO } from 'date-fns';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { MouseEvent, useState } from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
-import { useTheme } from 'styled-components';
 import { useAuth } from '../../context/useAuth';
 import { IconButton } from '../IconButton/IconButton';
 import { Paragraph } from '../Typography/Paragraph';
@@ -29,7 +28,7 @@ export interface Message {
 
 export interface MessageListProps {
   messages: Message[];
-  onDelete: (number) => void;
+  onDelete: (id: number) => void;
   isLoading: boolean;
 }
 
@@ -38,7 +37,6 @@ export function MessageList({
   onDelete,
   isLoading,
 }: MessageListProps) {
-  const theme = useTheme();
   const { user } = useAuth();
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [userInfos, setUserInfos] = useState<any>({});
@@ -74,20 +72,20 @@ export function MessageList({
               <div style={{ display: 'flex', gap: '8px' }}>
                 <Skeleton
                   circle
-                  baseColor={theme.colors.neutrals[500]}
+                  baseColor={'#313D49'}
                   height={20}
                   width={20}
                   style={{ marginBottom: '8px' }}
                 />
                 <Skeleton
-                  baseColor={theme.colors.neutrals[500]}
+                  baseColor={'#313D49'}
                   width={300}
                   height={14}
                   style={{ marginBottom: '8px' }}
                 />
               </div>
               <Skeleton
-                baseColor={theme.colors.neutrals[500]}
+                baseColor={'#313D49'}
                 width={'80%'}
                 height={14}
                 style={{ marginBottom: '1px' }}
@@ -116,7 +114,7 @@ export function MessageList({
               {user && user.login === message.from && (
                 <IconButton
                   icon={<FaRegTrashAlt />}
-                  onClick={() => onDelete(message.id)}
+                  onClick={() => onDelete(message.id as number)}
                 />
               )}
               {message.content.startsWith(':sticker:') ? (
@@ -132,26 +130,14 @@ export function MessageList({
         (loading ? (
           <LoadingUserInfo>
             <Skeleton
-              baseColor={theme.colors.neutrals[500]}
+              baseColor={'#313D49'}
               width={148}
               height={148}
               borderRadius={16}
             />
-            <Skeleton
-              baseColor={theme.colors.neutrals[500]}
-              width={130}
-              height={14}
-            />
-            <Skeleton
-              baseColor={theme.colors.neutrals[500]}
-              width={80}
-              height={10}
-            />
-            <Skeleton
-              baseColor={theme.colors.neutrals[500]}
-              width={100}
-              height={10}
-            />
+            <Skeleton baseColor={'#313D49'} width={130} height={14} />
+            <Skeleton baseColor={'#313D49'} width={80} height={10} />
+            <Skeleton baseColor={'#313D49'} width={100} height={10} />
           </LoadingUserInfo>
         ) : (
           <UserInfo>
