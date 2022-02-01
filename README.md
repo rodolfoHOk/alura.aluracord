@@ -9,7 +9,7 @@
 - Linguagem : Typescript / Javascript
 - Framework : Next Js / React Js
 - Biblioteca de estilização : Styled Components
-- Autenticação : Oauth2 Authorization Code com Github
+- Autenticação : Oauth2 Authorization Code com Github + token jwt customizado
 - Back-End As A Service : Supabase
 - Api do Next Js : para manter a segurança do client_secret(Github) da aplicação
 - Dados em tempo real : WebSocket com Supabase
