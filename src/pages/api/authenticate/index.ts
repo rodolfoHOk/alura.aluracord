@@ -1,14 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
+import { sign } from 'jsonwebtoken';
 
-export default async (request: NextApiRequest, response: NextApiResponse) => {
-  const { code } = request.body;
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const { code } = req.body;
 
   try {
     const result = await Authenticate(code);
-    return response.json(result);
+    return res.json(result);
   } catch (e) {
-    return response.json({ error: e.message });
+    return res.json({ error: e.message });
   }
 };
 
@@ -46,8 +47,23 @@ async function Authenticate(code: string) {
     },
   });
 
-  const user = response.data;
-  const token = data.access_token;
+  const user: User = response.data;
+
+  const token = sign(
+    {
+      user: {
+        id: user.id,
+        username: user.login,
+        name: user.name,
+        avatar_url: user.avatar_url,
+      },
+    },
+    process.env.JWT_SECRET,
+    {
+      subject: user.id.toString(),
+      expiresIn: '1d',
+    }
+  );
 
   return { user, token };
 }

@@ -7,16 +7,20 @@ import { MessageInput } from '../components/MessageInput/MessageInput';
 import { MessageList, Message } from '../components/MessageList/MessageList';
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { useTheme } from 'styled-components';
-import { supabaseClient } from '../utils/supabaseClient';
 import { useAuth } from '../context/useAuth';
 import { useRouter } from 'next/router';
 import Toast from '../components/Toast/Toast';
 import { Paragraph } from '../components/Typography/Paragraph';
+import { io } from 'socket.io-client';
+import { api } from '../services/api';
+
+const socket = io('http://localhost:3000');
 
 export default function Chat() {
   const theme = useTheme();
   const { user, signOut } = useAuth();
   const router = useRouter();
+
   const [mensagem, setMensagem] = useState('');
   const [listaMensagens, setListaMensagens] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
@@ -24,19 +28,21 @@ export default function Chat() {
   const [errorMessage, setErrorMessage] = useState('');
   const [validationError, setValidationError] = useState('');
 
-  function fetchSupabaseMessages() {
+  async function fetchMessages() {
     setLoading(true);
     setSending(true);
-    supabaseClient
-      .from<Message>('mensagens')
-      .select('*')
-      .eq('theme', theme.name)
-      .order('id', { ascending: false })
-      .then(({ data }) => {
-        setListaMensagens(data);
-        setLoading(false);
-        setSending(false);
-      });
+
+    api.get<Message[]>(`/messages?themeName=${theme.name}`).then((response) => {
+      if (response.status === 200) {
+        setListaMensagens(response.data);
+      } else {
+        setErrorMessage(
+          `Erro ao tentar buscar mensagens. Erro: ${response.status}`
+        );
+      }
+      setLoading(false);
+      setSending(false);
+    });
   }
 
   function handleChangeMessageInput(event: ChangeEvent<HTMLTextAreaElement>) {
@@ -67,17 +73,16 @@ export default function Chat() {
         theme: theme.name,
       };
 
-      supabaseClient
-        .from<Message>('mensagens')
-        .insert(novaMensagem)
-        .then(({ status }) => {
-          if (status === 201) {
-            setMensagem('');
-          } else {
-            setErrorMessage('Erro ao tentar enviar nova mensagem');
-          }
-          setSending(false);
-        });
+      api.post('/messages', { novaMensagem }).then((response) => {
+        if (response.status === 201) {
+          setMensagem('');
+        } else {
+          setErrorMessage(
+            `Erro ao tentar enviar nova mensagem. Erro: ${response.status}`
+          );
+        }
+        setSending(false);
+      });
     } else {
       setValidationError('Mensagem deve ter ao menos dois caracteres');
     }
@@ -85,16 +90,15 @@ export default function Chat() {
 
   function handleDeleteClick(id) {
     setSending(true);
-    supabaseClient
-      .from<Message>('mensagens')
-      .delete()
-      .eq('id', id)
-      .then(({ status }) => {
-        if (status !== 200) {
-          setErrorMessage('Erro ao tentar excluir mensagem de id: ' + id);
-        }
-        setSending(false);
-      });
+
+    api.delete(`/messages/${id}`).then((response) => {
+      if (response.status !== 200) {
+        setErrorMessage(
+          `Erro ao tentar excluir mensagem. Erro: ${response.status}`
+        );
+      }
+      setSending(false);
+    });
   }
 
   function onStickerClick(stickerSrc: string) {
@@ -102,24 +106,22 @@ export default function Chat() {
   }
 
   function listenerMessagesInRealTime() {
-    return supabaseClient
-      .from<Message>('mensagens')
-      .on('INSERT', (data) => {
-        if (data.new.theme === theme.name) {
-          setListaMensagens((valorAtualDaListaMensagens) => [
-            data.new,
-            ...valorAtualDaListaMensagens,
-          ]);
-        }
-      })
-      .on('DELETE', (data) => {
-        setListaMensagens((valorAtualDaListaMensagens) =>
-          valorAtualDaListaMensagens.filter(
-            (mensagem) => mensagem.id !== data.old.id
-          )
-        );
-      })
-      .subscribe();
+    socket.on('nova-mensagem', (novaMensagem: Message) => {
+      if (novaMensagem.theme === theme.name) {
+        setListaMensagens((valorAtualDaListaMensagens) => [
+          novaMensagem,
+          ...valorAtualDaListaMensagens,
+        ]);
+      }
+    });
+
+    socket.on('mensagem-removida', (mensagemRemovida: Message) => {
+      setListaMensagens((valorAtualDaListaMensagens) =>
+        valorAtualDaListaMensagens.filter(
+          (mensagem) => mensagem.id !== mensagemRemovida.id
+        )
+      );
+    });
   }
 
   function onClose() {
@@ -127,7 +129,7 @@ export default function Chat() {
   }
 
   useEffect(() => {
-    fetchSupabaseMessages();
+    fetchMessages();
     listenerMessagesInRealTime();
   }, [theme]);
 

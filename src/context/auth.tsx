@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import Toast from '../components/Toast/Toast';
+import { api } from '../services/api';
 
 export interface User {
   id?: number;
@@ -60,13 +60,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function signInApi(githubCode: string) {
     setLoading(true);
-    const response = await axios.post<AuthResponse>('/api/authenticate', {
+    const response = await api.post<AuthResponse>('/authenticate', {
       code: githubCode,
     });
     const { user, token } = response.data;
 
     if (response.status === 200) {
       localStorage.setItem('@aluracord:token', token);
+      api.defaults.headers.common.authorization = `Bearer ${token}`;
       setUser(user);
       router.push('/chat');
       setLoading(false);
@@ -83,7 +84,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const token = localStorage.getItem('@aluracord:token');
 
     if (token) {
-      // inserir token nas chamadas a api
+      api.defaults.headers.common.authorization = `Bearer ${token}`;
     }
   }, []);
 

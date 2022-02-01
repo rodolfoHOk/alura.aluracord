@@ -37,7 +37,10 @@ export function ButtonSendSticker({ onStickerClick }: ButtonSendStickerProps) {
           </Paragraph>
           <StickersList>
             {appConfig.stickers.map((sticker) => (
-              <StickerItem onClick={() => onStickerClick(sticker)}>
+              <StickerItem
+                key={sticker}
+                onClick={() => onStickerClick(sticker)}
+              >
                 <StickerImage src={sticker} />
               </StickerItem>
             ))}
