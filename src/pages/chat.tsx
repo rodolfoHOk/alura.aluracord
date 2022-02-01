@@ -14,7 +14,12 @@ import { Paragraph } from '../components/Typography/Paragraph';
 import { io } from 'socket.io-client';
 import { api } from '../services/api';
 
-const socket = io('http://localhost:3000');
+const webSocketServerUrl =
+  process.env.NODE_ENV !== 'production'
+    ? 'http://localhost:3000'
+    : 'https://alura-aluracord-rodolfohok.vercel.app';
+
+const socket = io(webSocketServerUrl);
 
 export default function Chat() {
   const theme = useTheme();
