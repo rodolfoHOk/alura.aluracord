@@ -11,15 +11,8 @@ import { useAuth } from '../context/useAuth';
 import { useRouter } from 'next/router';
 import Toast from '../components/Toast/Toast';
 import { Paragraph } from '../components/Typography/Paragraph';
-import { io } from 'socket.io-client';
 import { api } from '../services/api';
-
-const webSocketServerUrl =
-  process.env.NODE_ENV !== 'production'
-    ? 'http://localhost:3000'
-    : 'https://alura-aluracord-rodolfohok.vercel.app';
-
-const socket = io(webSocketServerUrl);
+import { supabaseClient } from '../utils/supabaseClient';
 
 export default function Chat() {
   const theme = useTheme();
@@ -111,22 +104,24 @@ export default function Chat() {
   }
 
   function listenerMessagesInRealTime() {
-    socket.on('nova-mensagem', (novaMensagem: Message) => {
-      if (novaMensagem.theme === theme.name) {
-        setListaMensagens((valorAtualDaListaMensagens) => [
-          novaMensagem,
-          ...valorAtualDaListaMensagens,
-        ]);
-      }
-    });
-
-    socket.on('mensagem-removida', (mensagemRemovida: Message) => {
-      setListaMensagens((valorAtualDaListaMensagens) =>
-        valorAtualDaListaMensagens.filter(
-          (mensagem) => mensagem.id !== mensagemRemovida.id
-        )
-      );
-    });
+    return supabaseClient
+      .from<Message>('mensagens')
+      .on('INSERT', (data) => {
+        if (data.new.theme === theme.name) {
+          setListaMensagens((valorAtualDaListaMensagens) => [
+            data.new,
+            ...valorAtualDaListaMensagens,
+          ]);
+        }
+      })
+      .on('DELETE', (data) => {
+        setListaMensagens((valorAtualDaListaMensagens) =>
+          valorAtualDaListaMensagens.filter(
+            (mensagem) => mensagem.id !== data.old.id
+          )
+        );
+      })
+      .subscribe();
   }
 
   function onClose() {
